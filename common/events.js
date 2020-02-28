@@ -17,7 +17,22 @@ export const REMOVE_EXPLOSION = (id) => {
     newCustomEvent("removeexplosion", id);
 }
 
-const newCustomEvent = (eventName, data = null) => {
+export const BUTTON_HOVER = (id, instance) => {
+    newCustomEvent("canvasbuttonhover", { id: id, instance: instance });
+}
+
+export const BUTTON_NOHOVER = (id, instance) => {
+    newCustomEvent("canvasbuttonnohover", { id: id, instance: instance });
+}
+
+export const BUTTON_CLICK = (id, instance, event) => {
+    newCustomEvent("canvasbuttonclick", { id: id, instance: instance, event: event });
+}
+
+
+
+
+export const newCustomEvent = (eventName, data = null) => {
     const event = new CustomEvent(eventName, { detail: data });
     document.dispatchEvent(event);
 }

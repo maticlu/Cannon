@@ -1,3 +1,3 @@
-import { Game } from "./objects/Game";
+import { startScenario } from "./objects/Scenario";
 
-const game = new Game(100);
+startScenario();

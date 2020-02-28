@@ -4,24 +4,23 @@ import patternImage from "./../assets/pat.png";
 
 export class Environment {
     constructor() {
-        this.render();
+        // Gradient
+        this.colorStart = "#03184b";
+        this.colorEnd = "#00c8ff";
+        this.gradient = context.createRadialGradient(vw / 2, vh / 2, vh, vw / 2, vh / 2, 0);
+        this.gradient.addColorStop(0, this.colorStart);
+        this.gradient.addColorStop(1, this.colorEnd);
     }
-    background() {
-        const gradient = context.createRadialGradient(vw / 2, vh / 2, vh, vw / 2, vh / 2, 0);
-        const patternImageObject = new Image();
-        patternImageObject.src = patternImage;
-        const pattern = context.createPattern(patternImageObject, 'repeat');
-        gradient.addColorStop(0, "#03184b");
-        gradient.addColorStop(1, "#00c8ff");
-        context.fillStyle = gradient;
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.fillStyle = pattern;
-        context.fillRect(0, 0, canvas.width, canvas.height);
 
+    setBaseColor(start, end) {
+        this.colorStart = start;
+        this.colorEnd = end;
+        this.gradient.addColorStop(0, this.colorStart);
+        this.gradient.addColorStop(1, this.colorEnd);
     }
 
     render() {
-        this.background();
-
+        context.fillStyle = this.gradient;
+        context.fillRect(0, 0, canvas.width, canvas.height);
     }
 }

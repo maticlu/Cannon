@@ -15,8 +15,8 @@ export class Explosion {
     }
 
     createParticles() {
-        for (let i = 1; i <= 12; i++) {
-            this.particles.push(new Particle(this.coordinatesAndColor, toRad(30) * i));
+        for (let i = 1; i <= 6; i++) {
+            this.particles.push(new Particle(this.coordinatesAndColor, toRad(60) * i));
         }
     }
 

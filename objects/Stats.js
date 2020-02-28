@@ -1,5 +1,6 @@
 import { context } from "./../common/canvas";
-import { vw, vh } from "./../common/constants";
+import { vw, vh, FONT } from "./../common/constants";
+import { writeToStorage } from "../common/storage";
 
 export class Stats {
     constructor() {
@@ -10,6 +11,7 @@ export class Stats {
         this.registerEvents();
         this.bulletsElement = document.getElementById("bullets");
         this.hitsElement = document.getElementById("hits");
+        this.playerName;
     }
 
     registerEvents() {
@@ -23,6 +25,12 @@ export class Stats {
         });
     }
 
+    reset() {
+        this.bullets = 0;
+        this.hits = 0;
+        this.score = 0;
+    }
+
     calculateScore() {
         const minusPoints = this.bullets - this.hits;
         const penalty = this.penalty * minusPoints;
@@ -30,12 +38,22 @@ export class Stats {
         this.score = points - penalty;
     }
 
+    setPlayerName(name) {
+        this.playerName = name;
+    }
+
     renderNewInfo(args) {
-        const radius = 50;
+        let radius = 50;
+        let font1Size = 16;
+        let font2Size = 30;
+        if (args.final) {
+            font1Size = 32;
+            font2Size = 60;
+            radius = 100;
+        }
+
         const positionRight = vw - radius - args.right;
         const positionBottom = vh - radius - args.bottom;
-
-
 
 
         context.beginPath();
@@ -43,13 +61,12 @@ export class Stats {
         context.fillStyle = "#38393b";
         context.fill();
 
-
-        context.font = "16px Jura";
+        context.font = font1Size + "px " + FONT;
         context.fillStyle = args.color;
         const textWidth = context.measureText(args.label).width;
         context.fillText(args.label, positionRight - textWidth / 2, positionBottom - radius / 2);
 
-        context.font = "bold 30px Jura";
+        context.font = "bold " + font2Size + "px " + FONT;
         context.fillStyle = args.color;
         const parameter = this[args.parameter];
         const parameterWidth = context.measureText(parameter).width;
@@ -81,35 +98,34 @@ export class Stats {
             color: "white"
         });
 
-        // context.beginPath();
-        // context.arc(vw - 180, vh - 60, 50, 0, 2 * Math.PI, false);
-        // context.fillStyle = "white";
-        // context.fill();
-
-        // const hitsText = "HITS";
-        // context.font = "16px Jura";
-        // context.fillStyle = "black";
-
-        // const hitsTextWidth = context.measureText(hitsText).width;
-
-        // context.fillText(hitsText, vw - 59 - hitsTextWidth / 2, vh - 80);
-
-        // const bulletsText = "BULLETS";
-        // context.font = "16px Jura";
-        // context.fillStyle = "black";
-
-        // const bulletsTextWidth = context.measureText(bulletsText).width;
-
-        // context.fillText(bulletsText, vw - 179 - bulletsTextWidth / 2, vh - 80);
-
-
-
-
-
+        this.renderInfo();
     }
 
+    renderInfo() {
+        context.font = "14px " + FONT;
+        context.fillStyle = "white";
+        const text = "Use your mouse to move cannon and left mouse click to shoot."
+        context.fillText(text, 25, vh - 30);
+    }
 
-    render() {
-        this.renderGraphics();
+    renderFinalScore() {
+        this.renderNewInfo({
+            right: vw / 2 - 100,
+            bottom: vh / 2,
+            label: "Score",
+            parameter: "score",
+            color: "white",
+            final: true
+        });
+    }
+
+    render(showFinalScreen = false) {
+        if (showFinalScreen) {
+            this.renderFinalScore();
+            writeToStorage(this.playerName, this.score);
+        }
+        else {
+            this.renderGraphics();
+        }
     }
 }
