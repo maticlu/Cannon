@@ -12,9 +12,7 @@ export class Button {
         this.positionTop = this.config.coordinates.y + BUTTON_HEIGHT + this.config.id * (BUTTON_HEIGHT + BUTTON_SPACE);
         this.textHeight = 30;
         this.textTop = this.positionTop + this.textHeight + 5;
-
         this.color = "white";
-
         this.font = "bold " + this.textHeight + "px " + FONT;
         this.setButtonLimits();
         this.registerEvents();

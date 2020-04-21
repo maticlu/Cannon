@@ -1,6 +1,5 @@
 import { context, canvas } from "./../common/canvas";
 import { vw, vh } from "./../common/constants";
-import patternImage from "./../assets/pat.png";
 
 export class Environment {
     constructor() {

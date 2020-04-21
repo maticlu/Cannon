@@ -93,9 +93,7 @@ export class Name extends MainMenu {
             context.stroke();
             return;
         }
-
         this.time = new Date();
-
     }
 
     render() {
